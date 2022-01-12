@@ -7,20 +7,16 @@ using NUnit.Framework;
 namespace adressBook_tests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupRemovalTests : TestBase
     {
         [Test]
-        public void GroupCreationTest()
+        public void GroupRemovalTest()
         {
             OpenHomePage();
             Login(new AccountData("admin", "secret"));
             GoToGroupsPage();
-            NewGroupCreation();
-            GroupData group = new GroupData("name_name");
-            group.Header = "header_header";
-            group.Footer = "footer_footer";
-            FillGroupForm(group);
-            SubmitGroupCreation();
+            SelectGroup();
+            RemoveGroup();
             GoToGroupsPage();
         }
     }
