@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 
-namespace adressBook_tests
+namespace WebAdressbookTests
 {
     [TestFixture]
     public class ContactCreationTests : TestBase
@@ -12,15 +12,12 @@ namespace adressBook_tests
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-
-            NewContacCreation();
             ContactData contact = new ContactData("John");
             contact.Lastname = "Doe";
-            FillContactForm(contact);
-            SubmitContactCreation();
-            OpenHomePage();
+            app.Contacts
+                .NewContacCreation()
+                .FillContactForm(contact)
+                .SubmitContactCreation();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 
-namespace adressBook_tests
+namespace WebAdressbookTests
 {
     [TestFixture]
     public class GroupRemovalTests : TestBase
@@ -12,12 +12,7 @@ namespace adressBook_tests
         [Test]
         public void GroupRemovalTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToGroupsPage();
-            SelectGroup();
-            RemoveGroup();
-            GoToGroupsPage();
+            app.Groups.Remove(1);
         }
     }
 }
