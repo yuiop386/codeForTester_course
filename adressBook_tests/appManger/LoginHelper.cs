@@ -41,7 +41,14 @@ namespace WebAdressbookTests
 
         public bool IsLoggedIn()
         {
-            return IsElementPresent(By.Name("logout"));
+            try
+            {
+                return driver.FindElement(By.LinkText("Logout")) !=null;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
 
         public bool IsLoggedIn(AccountData account)

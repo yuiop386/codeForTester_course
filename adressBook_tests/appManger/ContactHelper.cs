@@ -42,7 +42,7 @@ namespace WebAdressbookTests
 
         public ContactHelper ModifyContact()
         {
-            driver.FindElement(By.XPath("//tr[3]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//tr[2]/td[8]/a/img")).Click();
             return this;
         }
 
