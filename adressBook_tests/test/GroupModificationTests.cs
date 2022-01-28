@@ -24,10 +24,14 @@ namespace WebAdressbookTests
             }
             else
             {
-                GroupData group = new GroupData("Modification_Created_group");
-                group.Header = "MC_header";
-                group.Footer = "MC_footer";
+                GroupData group = new GroupData("Modification_Created_group1");
+                group.Header = "MC_header1";
+                group.Footer = "MC_footer1";
                 app.Groups.Creator(group);
+                group.Name = "Modification_Created_group2";
+                group.Header = "MC_header2";
+                group.Footer = "MC_footer2";
+                app.Groups.Modify(1, group);
             }
         }
     }
