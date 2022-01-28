@@ -25,7 +25,7 @@ namespace WebAdressbookTests
                 group.Footer = "RC_footer";
                 app.Groups.Creator(group);
             }
-            //app.Groups.Remove(1);
+            app.Groups.Remove(1);
         }
     }
 }
