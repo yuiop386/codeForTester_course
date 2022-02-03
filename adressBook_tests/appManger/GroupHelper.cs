@@ -76,13 +76,24 @@ namespace WebAdressbookTests
         }
         public GroupHelper SelectGroup(int groupNumber)
         {
-            driver.FindElement(By.XPath($"//div[@id='content']/form/span[{groupNumber}]/input")).Click();
+            driver.FindElement(By.XPath($"//div[@id='content']/form/span[{(groupNumber + 1)}]/input")).Click();
             return this;
         }
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
             return this;
+        }
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements  = driver.FindElements(By.CssSelector("span.group"));
+            foreach(IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
         }
     }
 }

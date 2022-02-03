@@ -23,7 +23,7 @@ namespace WebAdressbookTests
                     .FillContactForm(contact)
                     .SubmitContactCreation();
             }
-            app.Contacts.Remove(1);
+            app.Contacts.Remove(0);
         }
     }
 }

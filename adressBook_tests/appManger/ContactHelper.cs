@@ -36,7 +36,7 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int rowNumber)
         {
-            driver.FindElement(By.XPath($"//table[@id='maintable']/tbody/tr[{rowNumber + 1}]/td/input")).Click();
+            driver.FindElement(By.XPath($"//table[@id='maintable']/tbody/tr[{rowNumber + 2}]/td/input")).Click();
             return this;
         }
 
