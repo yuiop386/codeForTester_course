@@ -14,11 +14,7 @@ namespace WebAdressbookTests
         public void GroupRemovalTest()
         {
             app.Navigator.GoToGroupsPage();
-            if (app.Groups.IsElementPresent(By.Name("selected[]")))
-            {
-                app.Groups.Remove(1);
-            }
-            else
+            if (!app.Groups.IsElementPresent(By.Name("selected[]")))
             {
                 GroupData group = new GroupData("Removal_Created_group");
                 group.Header = "RC_header";

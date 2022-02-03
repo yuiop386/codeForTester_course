@@ -14,11 +14,7 @@ namespace WebAdressbookTests
         public void ContactRemovalTest()
         {
             app.Navigator.OpenHomePage();
-            if (app.Contacts.IsElementPresent(By.Name("selected[]")))
-            {
-                app.Contacts.Remove(1);
-            }
-            else
+            if (!app.Contacts.IsElementPresent(By.Name("selected[]")))
             {
                 ContactData contact = new ContactData("Kurt");
                 contact.Lastname = "Remove_Created";
