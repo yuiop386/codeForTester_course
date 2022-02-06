@@ -25,7 +25,6 @@ namespace WebAdressbookTests
                     .FillContactForm(contact)
                     .SubmitContactCreation();
             }
-
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             ContactData oldData = oldContacts[0];
 

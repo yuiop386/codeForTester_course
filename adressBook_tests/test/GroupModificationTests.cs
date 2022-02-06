@@ -22,7 +22,6 @@ namespace WebAdressbookTests
                 group.Footer = "MC_footer1";
                 app.Groups.Creator(group);
             }
-
             GroupData newData = new GroupData("NewName");
             newData.Header = "NewHeader";
             newData.Footer = "NewFooter";
