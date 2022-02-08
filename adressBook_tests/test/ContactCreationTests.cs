@@ -25,6 +25,8 @@ namespace WebAdressbookTests
                 .FillContactForm(contact)
                 .SubmitContactCreation();
 
+            app.Navigator.GoToHomePage();
+
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
 
             List<ContactData> newContacts = app.Contacts.GetContactList();
