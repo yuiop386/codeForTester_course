@@ -24,18 +24,18 @@ namespace WebAdressbookTests
             return this;
         }
 
-        public GroupHelper Remove(int v)
+        public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(v);
+            SelectGroup(index);
             RemoveGroup();
             return this;
         }
 
-        public GroupHelper Modify(int v, GroupData newData)
+        public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(v);
+            SelectGroup(index);
             ModifyGroup();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -76,9 +76,10 @@ namespace WebAdressbookTests
             groupCache = null;
             return this;
         }
-        public GroupHelper SelectGroup(int groupNumber)
+        public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath($"//div[@id='content']/form/span[{(groupNumber + 1)}]/input")).Click();
+            driver.FindElement(By
+                .XPath($"//div[@id='content']/form/span[{(index + 1)}]/input")).Click();
             return this;
         }
         public GroupHelper RemoveGroup()
@@ -96,7 +97,8 @@ namespace WebAdressbookTests
             {
                 groupCache = new List<GroupData>();
                 manager.Navigator.GoToGroupsPage();
-                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                ICollection<IWebElement> elements 
+                    = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
                     groupCache.Add(new GroupData(element.Text)
