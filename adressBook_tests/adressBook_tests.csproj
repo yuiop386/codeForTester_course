@@ -70,6 +70,7 @@
     <Compile Include="appManger\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="test\AuthTestBase.cs" />
+    <Compile Include="test\ContactInformationTests.cs" />
     <Compile Include="test\ContactModificationTests.cs" />
     <Compile Include="test\ContactRemovalTests.cs" />
     <Compile Include="test\GroupCreationTests.cs" />
