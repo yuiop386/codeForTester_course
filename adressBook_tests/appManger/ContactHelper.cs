@@ -179,9 +179,8 @@ namespace WebAdressbookTests
         public int GetNumberOfSerachResults()
         {
             manager.Navigator.GoToHomePage();
-            string serachResults = driver.FindElement(By.TagName("label")).Text;
-            Match m = new Regex(@"\d+").Match(serachResults);
-            return Int32.Parse(m.Value);
+            string serachResults = driver.FindElement(By.Id("search_count")).Text;
+            return Int32.Parse(serachResults);
         }
     }
 }
