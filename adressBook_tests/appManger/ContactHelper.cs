@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -175,5 +176,12 @@ namespace WebAdressbookTests
             return driver.FindElements(By.XPath("//tr[position()>1]")).Count;
         }
 
+        public int GetNumberOfSerachResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string serachResults = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(serachResults);
+            return Int32.Parse(m.Value);
+        }
     }
 }
