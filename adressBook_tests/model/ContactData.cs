@@ -103,7 +103,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
         }
 
         public string Email { get; set; }

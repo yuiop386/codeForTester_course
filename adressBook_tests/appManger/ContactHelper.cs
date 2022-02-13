@@ -28,7 +28,7 @@ namespace WebAdressbookTests
         public ContactData GetContactInformationFromForm(int rowNumber)
         {
             manager.Navigator.GoToHomePage();
-            ClickToModifyButton(rowNumber);
+            ClickModifyButton(rowNumber);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -75,7 +75,7 @@ namespace WebAdressbookTests
         public ContactHelper Modify(int rowNumber, ContactData newContactData)
         {
             manager.Navigator.GoToHomePage();
-            ClickToModifyButton(rowNumber);
+            ClickModifyButton(rowNumber);
             FillContactForm(newContactData);
             SubmitContactModification();
             manager.Navigator.GoToHomePage();
@@ -89,9 +89,15 @@ namespace WebAdressbookTests
             return this;
         }
 
-        public ContactHelper ClickToModifyButton(int rowNumber)
+        public ContactHelper ClickModifyButton(int rowNumber)
         {
             driver.FindElement(By.XPath($"//tr[{rowNumber + 2}]/td[8]/a/img")).Click();
+            return this;
+        }
+
+        public ContactHelper ClickDetailsButton(int rowNumber)
+        {
+            driver.FindElement(By.XPath($"//tr[{rowNumber + 2}]/td[7]/a/img")).Click();
             return this;
         }
 
