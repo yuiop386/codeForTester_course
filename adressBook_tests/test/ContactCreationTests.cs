@@ -17,14 +17,13 @@ namespace WebAdressbookTests
             app.Navigator.GoToHomePage();
             ContactData contact = new ContactData("John");
             contact.Lastname = "Doe";
-            contact.HomePhone = "+7123456";
-            contact.MobilePhone = "+7123457";
-            contact.WorkPhone = "+7123458";
-            contact.Address = @"St.Petersburg
-Glukharskaya str.6/1";
+            contact.HomePhone = "+7(123)456";
+            contact.MobilePhone = "+7123-45-7";
+            contact.WorkPhone = "+(712)34-58";
+            contact.Address = @"St.Petersburg Glukharskaya str.6/1";
             contact.Email = "email@mail.ru";
-            contact.Email2 = "email@yandex.ru";
-            contact.Email3 = "email@google.com";
+            contact.Email2 = "email2@yandex.ru";
+            contact.Email3 = "email3@google.com";
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
 
