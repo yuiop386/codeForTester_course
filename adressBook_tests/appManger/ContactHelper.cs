@@ -62,11 +62,6 @@ namespace WebAdressbookTests
             string firstName = detailedInfo[0].Trim().Split(' ')[0];
             string lastName = detailedInfo[0].Trim().Split(' ')[1];
 
-            //foreach (string infoItem in detailedInfo)
-            //{
-            //    infoItem.Trim().Split(' ');
-            //}
-
             string address = detailedInfo[1].Trim();
             string homePhone = Regex.Replace(detailedInfo[2].Trim(), @"[A-Za-z(): -]", "");
             string mobilePhone = Regex.Replace(detailedInfo[3].Trim(), @"[A-Za-z(): -]", "");
