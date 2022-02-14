@@ -80,7 +80,7 @@ namespace WebAdressbookTests
 
             if (!app.Contacts.IsElementPresent(By.Name("selected[]")))
             {
-                ContactData contact = new ContactData("Sonnie");
+                ContactData contact = new ContactData("Nelson");
                 contact.Lastname = "ContactInformationTests_Created";
                 contact.HomePhone = "+7(123)456";
                 contact.MobilePhone = "+7123-45-7";

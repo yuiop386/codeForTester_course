@@ -11,11 +11,21 @@ namespace WebAdressbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-        [Test]
-        public void ContactCreationTest()
+        public static IEnumerable<ContactData> RandomContactDataProvider()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(GenerateRandomString(10), (GenerateRandomString(10))));
+            }
+            return contacts;
+        }
+
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        public void ContactCreationTest(ContactData contact)
         {
             app.Navigator.GoToHomePage();
-            ContactData contact = new ContactData("John");
+
             contact.Lastname = "Doe";
             contact.HomePhone = "+7(123)456";
             contact.MobilePhone = "+7123-45-7";
