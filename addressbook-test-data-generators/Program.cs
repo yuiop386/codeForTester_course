@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebAdressbookTests;
 
 namespace addressbook_test_data_generators
@@ -18,9 +14,10 @@ namespace addressbook_test_data_generators
             {
                 writer.WriteLine(String.Format("${0},${1},${2}",
                     TestBase.GenerateRandomString(10),
-                    TestBase.GenerateRandomString(100),
-                    TestBase.GenerateRandomString(100)));
+                    TestBase.GenerateRandomString(10),
+                    TestBase.GenerateRandomString(10)));
             }
+            writer.Close();
         }
     }
 }
