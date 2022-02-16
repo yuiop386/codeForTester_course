@@ -120,34 +120,13 @@ namespace WebAdressbookTests
             };
         }
 
-        public ContactData GetContactInformationFromDetails(int rowNumber)
+        public string GetContactInformationFromDetails(int rowNumber)
         {
             manager.Navigator.GoToHomePage();
             ClickDetailsButton(rowNumber);
-            string[] detailedInfo = driver.FindElement(By.CssSelector("div#content"))
-                .Text.Split('\r', '\n').Where(e => e != "").ToArray();
-            string firstName = detailedInfo[0].Trim().Split(' ')[0];
-            string lastName = detailedInfo[0].Trim().Split(' ')[1];
-
-            string address = detailedInfo[1].Trim();
-            string homePhone = Regex.Replace(detailedInfo[2].Trim(), @"[A-Za-z(): -]", "");
-            string mobilePhone = Regex.Replace(detailedInfo[3].Trim(), @"[A-Za-z(): -]", "");
-            string workPhone = Regex.Replace(detailedInfo[4].Trim(), @"[A-Za-z(): -]", "");
-
-            string email = detailedInfo[5].Trim();
-            string email2 = detailedInfo[6].Trim();
-            string email3 = detailedInfo[7].Trim();
-
-            return new ContactData(firstName, lastName)
-            {
-                Address = address,
-                HomePhone = homePhone,
-                MobilePhone = mobilePhone,
-                WorkPhone = workPhone,
-                Email = email,
-                Email2 = email2,
-                Email3 = email3
-            };
+            return driver.FindElement(By.CssSelector("div#content"))
+                .Text.Replace("\r\n", "").Replace("H: ", "").Replace("M: ", "")
+                .Replace("W: ", "");
         }
 
         public ContactData GetContactInformationFromTable(int rowNumber)
