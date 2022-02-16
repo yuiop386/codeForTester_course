@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests : AuthTestBase
+    public class ContactModificationTests : ContactTestBase
     {
         [Test]
         public void ContactModificationTest()
@@ -27,13 +27,14 @@ namespace WebAdressbookTests
                 contact.Email = "email@mail.ru";
                 contact.Email2 = "email2@yandex.ru";
                 contact.Email3 = "email3@google.com";
+
                 app.Contacts
                     .NewContactCreation()
                     .FillContactForm(contact)
                     .SubmitContactCreation();
             }
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData oldData = oldContacts[0];
 
             ContactData newContactData = new ContactData("Jane");
@@ -45,20 +46,21 @@ namespace WebAdressbookTests
             newContactData.Email = "email@mail.ru";
             newContactData.Email2 = "email2@yandex.ru";
             newContactData.Email3 = "email3@google.com";
+
             app.Contacts.Modify(0, newContactData);
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             Assert.AreEqual(oldContacts.Count, newContacts.Count);
 
-            oldContacts[0].Firstname = "Jane";
-            oldContacts[0].Lastname = "Brown";
-            oldContacts[0].HomePhone = "+7(123)456";
-            oldContacts[0].MobilePhone = "+7123-45-7";
-            oldContacts[0].WorkPhone = "+(712)34-58";
-            oldContacts[0].Address = @"St.Petersburg Glukharskaya str.6/1";
-            oldContacts[0].Email = "email@mail.ru";
-            oldContacts[0].Email2 = "email2@yandex.ru";
-            oldContacts[0].Email3 = "email3@google.com";
+            oldContacts[0].Firstname = newContactData.Firstname;
+            oldContacts[0].Lastname = newContactData.Lastname;
+            oldContacts[0].HomePhone = newContactData.HomePhone;
+            oldContacts[0].MobilePhone = newContactData.MobilePhone;
+            oldContacts[0].WorkPhone = newContactData.WorkPhone;
+            oldContacts[0].Address = newContactData.Address;
+            oldContacts[0].Email = newContactData.Email;
+            oldContacts[0].Email2 = newContactData.Email2;
+            oldContacts[0].Email3 = newContactData.Email3;
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);

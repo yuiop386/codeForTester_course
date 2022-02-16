@@ -24,11 +24,51 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public GroupHelper Remove(GroupData toBeRemoved)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(toBeRemoved.Id);
+            RemoveGroup();
+            manager.Navigator.GoToGroupsPage();
+            return this;
+        }
+
         public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupsPage();
             SelectGroup(index);
             RemoveGroup();
+            manager.Navigator.GoToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath($"//input[@name='selected[]' and @value='" + id + "']")).Click();
+            return this;
+        }
+        public GroupHelper SelectGroup(int index)
+        {
+            driver.FindElement(By
+                .XPath($"//div[@id='content']/form/span[{(index + 1)}]/input")).Click();
+            return this;
+        }
+
+        public GroupHelper RemoveGroup()
+        {
+            driver.FindElement(By.Name("delete")).Click();
+            groupCache = null;
+            return this;
+        }
+
+        public GroupHelper Modify(GroupData oldData, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(oldData.Id);
+            ModifyGroup();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            manager.Navigator.GoToGroupsPage();
             return this;
         }
 
@@ -73,18 +113,6 @@ namespace WebAdressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
-            groupCache = null;
-            return this;
-        }
-        public GroupHelper SelectGroup(int index)
-        {
-            driver.FindElement(By
-                .XPath($"//div[@id='content']/form/span[{(index + 1)}]/input")).Click();
-            return this;
-        }
-        public GroupHelper RemoveGroup()
-        {
-            driver.FindElement(By.Name("delete")).Click();
             groupCache = null;
             return this;
         }
