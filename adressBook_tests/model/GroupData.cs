@@ -10,7 +10,6 @@ namespace WebAdressbookTests
     {
         public GroupData()
         {
-
         }
 
         public GroupData(string name)

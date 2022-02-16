@@ -13,45 +13,96 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
-            int count = Convert.ToInt32(args[0]);
-            string filename = args[1];
-            string format = args[2];
+            string dataType = args[0];
+            int count = Convert.ToInt32(args[1]);
+            string filename = args[2];
+            string format = args[3];
+            StreamWriter writer = new StreamWriter(filename);
 
-            List<GroupData> groups = new List<GroupData>();
-            for (int i = 0; i < count; i++)
+            if (dataType == "contacts")
             {
-                groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                List<ContactData> contacts = new List<ContactData>();
+                for (int i = 0; i < count; i++)
                 {
-                    Header = TestBase.GenerateRandomString(100),
-                    Footer = TestBase.GenerateRandomString(100)
-                });
-            }
-            if (format == "xlsx")
-            {
-                writeGroupsToXlsxFile(groups, filename);
-            }
-            else
-            {
-                StreamWriter writer = new StreamWriter(filename);
-                if (format == "csv")
-                {
-                    writeGroupsToCsvFile(groups, writer);
+                    contacts.Add(new ContactData(TestBase.GenerateRandomString(5), TestBase.GenerateRandomString(5))
+                    {
+                        Address = TestBase.GenerateRandomString(15),
+                        HomePhone = TestBase.GenerateRandomString(10),
+                        MobilePhone = TestBase.GenerateRandomString(10),
+                        WorkPhone = TestBase.GenerateRandomString(10),
+                        Email = TestBase.GenerateRandomString(10),
+                        Email2 = TestBase.GenerateRandomString(10),
+                        Email3 = TestBase.GenerateRandomString(10),
+                    });
                 }
-                else if (format == "xml")
+                if (format == "xml")
                 {
-                    writeGroupsToXmlFile(groups, writer);
-                }
-                else if (format == "json")
-                {
-                    writeGroupsToJsonFile(groups, writer);
+                    WriteContactsToXmlFile(contacts, writer);
                 }
                 else
                 {
-                    System.Console.Out.Write("Unrecognized format: " + format);
-                }
-                writer.Close();
-            }
+                    if (format == "json")
+                    {
+                        WriteContactsToJsonile(contacts, writer);
+                    }
 
+                    else
+                    {
+                        System.Console.Out.Write("Unrecognized format: " + format);
+                    }
+                    writer.Close();
+                }
+            }
+            else if (dataType == "groups")
+            {
+                List<GroupData> groups = new List<GroupData>();
+                for (int i = 0; i < count; i++)
+                {
+                    groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                    {
+                        Header = TestBase.GenerateRandomString(100),
+                        Footer = TestBase.GenerateRandomString(100)
+                    });
+                }
+                if (format == "xlsx")
+                {
+                    writeGroupsToXlsxFile(groups, filename);
+                }
+                else
+                {
+                    if (format == "csv")
+                    {
+                        writeGroupsToCsvFile(groups, writer);
+                    }
+                    else if (format == "xml")
+                    {
+                        writeGroupsToXmlFile(groups, writer);
+                    }
+                    else if (format == "json")
+                    {
+                        writeGroupsToJsonFile(groups, writer);
+                    }
+                    else
+                    {
+                        System.Console.Out.Write("Unrecognized format: " + format);
+                    }
+                    writer.Close();
+                }
+            }
+            else
+            {
+                System.Console.Out.Write("Unrecognized dataType: " + dataType);
+            }
+        }
+
+        static void WriteContactsToJsonile(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts, Newtonsoft.Json.Formatting.Indented));
+        }
+
+        static void WriteContactsToXmlFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
         }
 
         static void writeGroupsToXlsxFile(List<GroupData> groups, string filename)
