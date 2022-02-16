@@ -14,14 +14,81 @@ namespace WebAdressbookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        public ContactHelper Remove(ContactData toBeRemoved)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(toBeRemoved.Id);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(int toBeRemoved)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(toBeRemoved);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Modify(int rowNumber, ContactData newContactData)
+        {
+            manager.Navigator.GoToHomePage();
+            ClickModifyButton(rowNumber);
+            FillContactForm(newContactData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAddContactTo(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
 
         }
 
-        public ContactHelper Remove(int rowNumber)
+        public void RemoveContactFromGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
-            SelectContact(rowNumber);
-            RemoveContact();
+            SelectGroupInFilter(group.Name);
+            SelectContact(contact.Id);
+            CommitRemovingFromGroup();
+        }
+
+        public ContactHelper FillContactForm(ContactData contact)
+        {
+            driver.FindElement(By.Name("firstname")).Click();
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+
+            driver.FindElement(By.Name("address")).Clear();
+            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
+
+            driver.FindElement(By.Name("home")).Clear();
+            driver.FindElement(By.Name("home")).SendKeys(contact.HomePhone);
+            driver.FindElement(By.Name("mobile")).Clear();
+            driver.FindElement(By.Name("mobile")).SendKeys(contact.MobilePhone);
+            driver.FindElement(By.Name("work")).Clear();
+            driver.FindElement(By.Name("work")).SendKeys(contact.WorkPhone);
+
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email")).SendKeys(contact.Email);
+            driver.FindElement(By.Name("email2")).Clear();
+            driver.FindElement(By.Name("email2")).SendKeys(contact.Email2);
+            driver.FindElement(By.Name("email3")).Clear();
+            driver.FindElement(By.Name("email3")).SendKeys(contact.Email3);
+
             return this;
         }
 
@@ -53,38 +120,34 @@ namespace WebAdressbookTests
             };
         }
 
-        public string GetContactInformationFromDetails(int rowNumber)
+        public ContactData GetContactInformationFromDetails(int rowNumber)
         {
             manager.Navigator.GoToHomePage();
             ClickDetailsButton(rowNumber);
-            return driver.FindElement(By.CssSelector("div#content"))
-                .Text.Replace("\r\n", "").Replace("H: ", "").Replace("M: ", "")
-                .Replace("W: ", "");                             
+            string[] detailedInfo = driver.FindElement(By.CssSelector("div#content"))
+                .Text.Split('\r', '\n').Where(e => e != "").ToArray();
+            string firstName = detailedInfo[0].Trim().Split(' ')[0];
+            string lastName = detailedInfo[0].Trim().Split(' ')[1];
 
-            //string[] detailedInfo = driver.FindElement(By.CssSelector("div#content"))
-            //    .Text.Split('\r', '\n').Where(e => e != "").ToArray();
-            //string firstName = detailedInfo[0].Trim().Split(' ')[0];
-            //string lastName = detailedInfo[0].Trim().Split(' ')[1];
+            string address = detailedInfo[1].Trim();
+            string homePhone = Regex.Replace(detailedInfo[2].Trim(), @"[A-Za-z(): -]", "");
+            string mobilePhone = Regex.Replace(detailedInfo[3].Trim(), @"[A-Za-z(): -]", "");
+            string workPhone = Regex.Replace(detailedInfo[4].Trim(), @"[A-Za-z(): -]", "");
 
-            //string address = detailedInfo[1].Trim();
-            //string homePhone = Regex.Replace(detailedInfo[2].Trim(), @"[A-Za-z(): -]", "");
-            //string mobilePhone = Regex.Replace(detailedInfo[3].Trim(), @"[A-Za-z(): -]", "");
-            //string workPhone = Regex.Replace(detailedInfo[4].Trim(), @"[A-Za-z(): -]", "");
+            string email = detailedInfo[5].Trim();
+            string email2 = detailedInfo[6].Trim();
+            string email3 = detailedInfo[7].Trim();
 
-            //string email = detailedInfo[5].Trim();
-            //string email2 = detailedInfo[6].Trim();
-            //string email3 = detailedInfo[7].Trim();
-
-            //return new ContactData(firstName, lastName)
-            //{
-            //    Address = address,
-            //    HomePhone = homePhone,
-            //    MobilePhone = mobilePhone,
-            //    WorkPhone = workPhone,
-            //    Email = email,
-            //    Email2 = email2,
-            //    Email3 = email3
-            //};
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
+            };
         }
 
         public ContactData GetContactInformationFromTable(int rowNumber)
@@ -106,36 +169,57 @@ namespace WebAdressbookTests
             };
         }
 
-        public ContactHelper Modify(int rowNumber, ContactData newContactData)
+        private void CommitRemovingFromGroup()
         {
-            manager.Navigator.GoToHomePage();
-            ClickModifyButton(rowNumber);
-            FillContactForm(newContactData);
-            SubmitContactModification();
-            manager.Navigator.GoToHomePage();
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        private void SelectGroupInFilter(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        private void SelectGroupToAddContactTo(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        private ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("//input[@name='selected[]' and @value='" + id + "']")).Click();
             return this;
         }
 
-        public ContactHelper SelectContact(int rowNumber)
+        private ContactHelper SelectContact(int rowNumber)
         {
             driver.FindElement(By
                 .XPath($"//table[@id='maintable']/tbody/tr[{rowNumber + 2}]/td/input")).Click();
             return this;
         }
 
-        public ContactHelper ClickModifyButton(int rowNumber)
+        private ContactHelper ClickModifyButton(int rowNumber)
         {
             driver.FindElement(By.XPath($"//tr[{rowNumber + 2}]/td[8]/a/img")).Click();
             return this;
         }
 
-        public ContactHelper ClickDetailsButton(int rowNumber)
+        private ContactHelper ClickDetailsButton(int rowNumber)
         {
             driver.FindElement(By.XPath($"//tr[{rowNumber + 2}]/td[7]/a/img")).Click();
             return this;
         }
 
-        public ContactHelper RemoveContact()
+        private ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             contactCache = null;
@@ -145,34 +229,6 @@ namespace WebAdressbookTests
         public ContactHelper NewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
-            return this;
-        }
-
-        public ContactHelper FillContactForm(ContactData contact)
-        {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
-
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-
-            driver.FindElement(By.Name("home")).Clear();
-            driver.FindElement(By.Name("home")).SendKeys(contact.HomePhone);
-            driver.FindElement(By.Name("mobile")).Clear();
-            driver.FindElement(By.Name("mobile")).SendKeys(contact.MobilePhone);
-            driver.FindElement(By.Name("work")).Clear();
-            driver.FindElement(By.Name("work")).SendKeys(contact.WorkPhone);
-
-            driver.FindElement(By.Name("email")).Clear();
-            driver.FindElement(By.Name("email")).SendKeys(contact.Email);
-            driver.FindElement(By.Name("email2")).Clear();
-            driver.FindElement(By.Name("email2")).SendKeys(contact.Email2);
-            driver.FindElement(By.Name("email3")).Clear();
-            driver.FindElement(By.Name("email3")).SendKeys(contact.Email3);
-
             return this;
         }
 

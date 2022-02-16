@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
         [Test]
         public void GroupModificationTest()
@@ -27,12 +27,12 @@ namespace WebAdressbookTests
             newData.Header = "NewHeader";
             newData.Footer = "NewFooter";
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData oldData = oldGroups[0];
 
-            app.Groups.Modify(0, newData);
+            app.Groups.Modify(oldData, newData);
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             Assert.AreEqual(oldGroups.Count, newGroups.Count);
 
             oldGroups[0].Name = newData.Name;

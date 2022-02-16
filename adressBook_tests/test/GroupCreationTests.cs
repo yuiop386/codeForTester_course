@@ -13,7 +13,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -72,9 +72,9 @@ namespace WebAdressbookTests
             {
                 groups.Add(new GroupData()
                 {
-                    Name = range.Cells[i, 1].Value,
-                    Header = range.Cells[i, 2].Value,
-                    Footer = range.Cells[i, 3].Value
+                    Name = range.Cells[i, 1].value,
+                    Header = range.Cells[i, 2].value,
+                    Footer = range.Cells[i, 3].value
                 });
             }
             wb.Close();
@@ -83,10 +83,10 @@ namespace WebAdressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("GroupDataFromXlsxFile")]
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             app.Groups.Creator(group);
 
@@ -94,7 +94,7 @@ namespace WebAdressbookTests
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -122,6 +122,16 @@ namespace WebAdressbookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            var a = GroupData.GetAll()[0].GetContacts();
+            foreach (ContactData contact in a)
+            {
+                System.Console.Out.WriteLine(contact.Deprecated);
+            }
         }
     }
 }
