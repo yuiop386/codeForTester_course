@@ -47,7 +47,7 @@ namespace WebAdressbookTests
             newContactData.Email2 = "email2@yandex.ru";
             newContactData.Email3 = "email3@google.com";
 
-            app.Contacts.Modify(0, newContactData);
+            app.Contacts.Modify(oldData, newContactData);
 
             List<ContactData> newContacts = ContactData.GetAll();
             Assert.AreEqual(oldContacts.Count, newContacts.Count);

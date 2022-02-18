@@ -34,6 +34,16 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public ContactHelper Modify(ContactData contact, ContactData newContactData)
+        {
+            manager.Navigator.GoToHomePage();
+            ClickModifyButton(contact.Id);
+            FillContactForm(newContactData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
         public ContactHelper Modify(int rowNumber, ContactData newContactData)
         {
             manager.Navigator.GoToHomePage();
@@ -189,6 +199,13 @@ namespace WebAdressbookTests
         private ContactHelper ClickModifyButton(int rowNumber)
         {
             driver.FindElement(By.XPath($"//tr[{rowNumber + 2}]/td[8]/a/img")).Click();
+            return this;
+        }
+
+        private ContactHelper ClickModifyButton(string id)
+        {
+            driver.FindElement(By.XPath("//tr[./td[./input[@name='selected[]' and @value='" + id + "']]]"))
+                .FindElement(By.XPath(".//img[@alt='Edit']")).Click();
             return this;
         }
 
