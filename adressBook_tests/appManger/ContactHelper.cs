@@ -16,6 +16,15 @@ namespace WebAdressbookTests
         {
         }
 
+        public ContactHelper Creator(ContactData contact)
+        {
+            manager.Navigator.GoToGroupsPage();
+            NewContactCreation();
+            FillContactForm(contact);
+            SubmitContactCreation();
+            return this;
+        }
+
         public ContactHelper Remove(ContactData toBeRemoved)
         {
             manager.Navigator.GoToHomePage();

@@ -13,6 +13,13 @@ namespace WebAdressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string address;
+        private string homePhone;
+        private string workPhone;
+        private string mobilePhone;
+        private string email;
+        private string email2;
+        private string email3;
 
         public ContactData()
         {
@@ -88,13 +95,69 @@ namespace WebAdressbookTests
         [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
-        public string Address { get; set; }
+        public string Address
+        {
+            get
+            {
+                if (address != null)
+                {
+                    return address;
+                }
+                return "";
+            }
+            set
+            {
+                address = value;
+            }
+        }
 
-        public string HomePhone { get; set; }
+        public string HomePhone
+        {
+            get
+            {
+                if (homePhone != null)
+                {
+                    return homePhone;
+                }
+                return "";
+            }
+            set
+            {
+                homePhone = value;
+            }
+        }
 
-        public string MobilePhone { get; set; }
+        public string MobilePhone
+        {
+            get
+            {
+                if (mobilePhone != null)
+                {
+                    return mobilePhone;
+                }
+                return "";
+            }
+            set
+            {
+                mobilePhone = value;
+            }
+        }
 
-        public string WorkPhone { get; set; }
+        public string WorkPhone
+        {
+            get
+            {
+                if (workPhone != null)
+                {
+                    return workPhone;
+                }
+                return "";
+            }
+            set
+            {
+                workPhone = value;
+            }
+        }
 
         [Column(Name = "deprecated")]
         public string Deprecated { get; set; }
@@ -119,11 +182,53 @@ namespace WebAdressbookTests
             }
         }
 
-        public string Email { get; set; }
+        public string Email
+        {
+            get
+            {
+                if (email != null)
+                {
+                    return email;
+                }
+                return "";
+            }
+            set
+            {
+                email = value;
+            }
+        }
 
-        public string Email2 { get; set; }
+        public string Email2
+        {
+            get
+            {
+                if (email2 != null)
+                {
+                    return email2;
+                }
+                return "";
+            }
+            set
+            {
+                email2 = value;
+            }
+        }
 
-        public string Email3 { get; set; }
+        public string Email3
+        {
+            get
+            {
+                if (email3 != null)
+                {
+                    return email3;
+                }
+                return "";
+            }
+            set
+            {
+                email3 = value;
+            }
+        }
 
         public string AllEmails
         {

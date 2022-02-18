@@ -10,6 +10,10 @@ namespace WebAdressbookTests
     [Table(Name = "group_list")]
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
+        private string name;
+        private string header;
+        private string footer;
+
         public GroupData()
         {
         }
@@ -53,13 +57,55 @@ namespace WebAdressbookTests
         }
 
         [Column(Name = "group_name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                if (name != null)
+                {
+                    return name;
+                }
+                return "";
+            }
+            set
+            {
+                name = value;
+            }
+        }
 
         [Column(Name = "group_header")]
-        public string Header { get; set; }
+        public string Header
+        {
+            get
+            {
+                if (header != null)
+                {
+                    return header;
+                }
+                return "";
+            }
+            set
+            {
+                header = value;
+            }
+        }
 
         [Column(Name = "group_footer")]
-        public string Footer { get; set; }
+        public string Footer
+        {
+            get
+            {
+                if (footer != null)
+                {
+                    return footer;
+                }
+                return "";
+            }
+            set
+            {
+                footer = value;
+            }
+        }
 
         [Column(Name = "group_id"), PrimaryKey, Identity]
         public string Id { get; set; }
